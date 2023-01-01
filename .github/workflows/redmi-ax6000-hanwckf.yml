@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: redmi_ax6000_hanwckf_uboot
+name: redmi-ax6000-hanwckf
 
 on:
   repository_dispatch:
