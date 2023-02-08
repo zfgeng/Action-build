@@ -26,6 +26,7 @@ env:
   CONFIG_FILE: hanwckf-uboot-addon-test.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
+  DIY_P3_SH: diy-part3.sh
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -74,7 +75,7 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
-    - name: Load custom configuration
+    - name: Load default configuration
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
@@ -97,6 +98,14 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+
+    - name: Load custom configuration
+      run: |
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $DIY_P3_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P3_SH
 
     - name: Compile the firmware
       id: compile
